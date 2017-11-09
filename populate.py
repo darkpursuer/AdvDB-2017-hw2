@@ -11,6 +11,43 @@ into database for the use of problem 1.
 from random import shuffle, choice, randint
 from copy import copy
 from math import floor
+from pony.orm import *
+
+
+"""
+========================================
+DATABASE
+========================================
+"""
+db = Database()
+print('Connecting to database...')
+# TODO modify database configuration HERE!
+db.bind(provider='mysql', user='root', password='danmo1124', host='localhost', database='nyu_adv_database')
+
+class Trade(db.Entity):
+  """
+  define Trade table entity
+  """
+  _table_ = "trade"
+  stocksymbol = Required(int)
+  time = PrimaryKey(int, auto=True) # auto increment
+  quantity = Required(int)
+  price = Required(int)
+
+db.generate_mapping(create_tables=True)
+
+@db_session
+def insertTrade(stocksymbol, quantity, price):
+  """
+  Insert a trade into table
+  """
+  return Trade(stocksymbol=stocksymbol, quantity=quantity, price=price)
+
+"""
+========================================
+END of DATABASE
+========================================
+"""
 
 def genSymbols(frac, N):
   """
@@ -69,8 +106,40 @@ def genTrades():
     trades.append([symbol, quantity, price])
   return trades
 
+# Print iterations progress
+def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
+  """
+  Call in a loop to create terminal progress bar
+  @params:
+    iteration   - Required  : current iteration (Int)
+    total       - Required  : total iterations (Int)
+    prefix      - Optional  : prefix string (Str)
+    suffix      - Optional  : suffix string (Str)
+    decimals    - Optional  : positive number of decimals in percent complete (Int)
+    length      - Optional  : character length of bar (Int)
+    fill        - Optional  : bar fill character (Str)
+  """
+  percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+  filledLength = int(length * iteration // total)
+  bar = fill * filledLength + '-' * (length - filledLength)
+  print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = '\r')
+  # Print New Line on Complete
+  if iteration == total: 
+    print()
+
 if __name__ == "__main__":
+  """
+  MAIN
+  """
+  db = Database()
   # generate trade data first
   print('Generating trades...')
   trades = genTrades()
-  print('Connecting to database...')
+  print('Inserting records into db...')
+  # Initial call to print 0% progress
+  printProgressBar(0, 10000000, prefix = 'Progress:', suffix = 'Complete', length = 50)
+  for i, trade in enumerate(trades):
+    insertTrade(trade[0], trade[1], trade[2])
+    # Update Progress Bar
+    printProgressBar(i + 1, 10000000, prefix = 'Progress:', suffix = 'Complete', length = 50)
+  print('Done!')
