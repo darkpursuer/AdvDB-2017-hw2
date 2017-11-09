@@ -22,7 +22,21 @@ DATABASE
 db = Database()
 print('Connecting to database...')
 # TODO modify database configuration HERE!
-db.bind(provider='mysql', user='root', password='danmo1124', host='localhost', database='nyu_adv_database')
+db.bind(provider='postgres', user='', password='', host='', database='')
+
+# # SQLite
+# db.bind(provider='sqlite', filename=':memory:')
+# # or
+# db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
+
+# # PostgreSQL
+# db.bind(provider='postgres', user='', password='', host='', database='')
+
+# # MySQL
+# db.bind(provider='mysql', host='', user='', passwd='', db='')
+
+# # Oracle
+# db.bind(provider='oracle', user='', password='', dsn='')
 
 class Trade(db.Entity):
   """
