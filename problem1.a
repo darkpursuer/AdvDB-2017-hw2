@@ -1,0 +1,32 @@
+// Homework for class Advanced Database Systems
+// Copyright 2017 Taikun Guo and Yi Zhang
+// I tested all the following query on cims server.
+
+// a. Find the weighted (by quantity) average price of each stock over the entire time series.
+SELECT stocksymbol,(sum(quantity*trade.price)/sum(quantity)) as average_price
+FROM trade
+GROUP BY stocksymbol
+// time taken 8s520ms
+
+// b. Find the vector of 10 trade unweighted moving averages (i.e. moving average of price) per stock.
+SELECT stocksymbol,avgs(10,price) as unweighted_moving_avg
+FROM trade
+ASSUMING ASC time
+GROUP BY stocksymbol
+// time taken 10s480ms
+
+// c. Find the vector of 10 trade weighted moving averages per stock.
+SELECT stocksymbol,avgs(10,price*quantity)/avgs(10,quantity) as weighted_moving_avg
+FROM trade
+ASSUMING ASC time
+GROUP BY stocksymbol
+// time taken 13s560ms
+
+// d. Find the single best buy first/sell later trade you could have done on each stock (your
+// query should work on our data as well as yours). That is, for each stock, find the
+// maximum positive price difference between a later sell and an earlier buy.
+SELECT stocksymbol,max(price-mins(price))
+FROM trade
+ASSUMING ASC time
+GROUP BY stocksymbol
+// time taken 9s600ms
