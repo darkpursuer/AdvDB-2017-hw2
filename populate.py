@@ -5,63 +5,12 @@ Homework for class Advanced Database Systems
 Copyright 2017 Taikun Guo and Yi Zhang
 
 This file is used to populate trade table and store it
-into database for the use of problem 1.
+into a local CSV file.
 """
 
 from random import shuffle, choice, randint
 from copy import copy
 from math import floor
-from pony.orm import *
-
-
-"""
-========================================
-DATABASE
-========================================
-"""
-db = Database()
-print('Connecting to database...')
-# TODO modify database configuration HERE!
-db.bind(provider='postgres', user='', password='', host='', database='')
-
-# # SQLite
-# db.bind(provider='sqlite', filename=':memory:')
-# # or
-# db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
-
-# # PostgreSQL
-# db.bind(provider='postgres', user='', password='', host='', database='')
-
-# # MySQL
-# db.bind(provider='mysql', host='', user='', passwd='', db='')
-
-# # Oracle
-# db.bind(provider='oracle', user='', password='', dsn='')
-
-class Trade(db.Entity):
-  """
-  define Trade table entity
-  """
-  _table_ = "trade"
-  stocksymbol = Required(int)
-  time = PrimaryKey(int, auto=True) # auto increment
-  quantity = Required(int)
-  price = Required(int)
-
-db.generate_mapping(create_tables=True)
-
-@db_session
-def insertTrade(stocksymbol, quantity, price):
-  """
-  Insert a trade into table
-  """
-  return Trade(stocksymbol=stocksymbol, quantity=quantity, price=price)
-
-"""
-========================================
-END of DATABASE
-========================================
-"""
 
 def genSymbols(frac, N):
   """
@@ -145,15 +94,17 @@ if __name__ == "__main__":
   """
   MAIN
   """
-  db = Database()
   # generate trade data first
   print('Generating trades...')
   trades = genTrades()
   print('Inserting records into db...')
   # Initial call to print 0% progress
   printProgressBar(0, 10000000, prefix = 'Progress:', suffix = 'Complete', length = 50)
-  for i, trade in enumerate(trades):
-    insertTrade(trade[0], trade[1], trade[2])
-    # Update Progress Bar
-    printProgressBar(i + 1, 10000000, prefix = 'Progress:', suffix = 'Complete', length = 50)
+  with open("./trade.csv", "w") as csv_file:
+    csv_file.write("stocksymbol,time,quantity,price\n")
+    for i, trade in enumerate(trades):
+      # trade(stocksymbol, time, quantity, price)
+      csv_file.write(str(trade[0]) + "," + str(i+1) + "," + str(trade[1]) + "," + str(trade[2]) + "\n")
+      # Update Progress Bar
+      printProgressBar(i + 1, 10000000, prefix = 'Progress:', suffix = 'Complete', length = 50)
   print('Done!')
