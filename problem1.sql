@@ -1,6 +1,6 @@
 -- Homework for class Advanced Database Systems
 -- Copyright 2017 Taikun Guo and Yi Zhang
--- following code are tested in my local PostgreSQL
+-- following queries are tested in my local PostgreSQL
 
 -- a. Find the weighted (by quantity) average price of each stock over the entire time series.
 SELECT
@@ -8,7 +8,6 @@ SELECT
   (SUM(quantity*trade.price)/SUM(quantity)) AS average_price
 FROM trade
 GROUP BY stocksymbol;
--- time taken 3s140ms 
 
 -- b. Find the vector of 10 trade unweighted moving averages (i.e. moving average of price) per stock.
 SELECT t2.stocksymbol, array_agg(t2.avg_prices) AS unweighted_avg
@@ -22,7 +21,6 @@ FROM (
   FROM trade t
 ) t2
 GROUP BY t2.stocksymbol;
--- time taken 19s450ms
 
 -- c. Find the vector of 10 trade weighted moving averages per stock.
 SELECT t2.stocksymbol, array_agg(t2.total_prices/t2.quantities) AS weighted_avg
@@ -41,7 +39,6 @@ FROM (
   FROM trade t
 ) t2
 GROUP BY t2.stocksymbol;
--- time taken 26s160ms
 
 -- d. Find the single best buy first/sell later trade you could have done on each stock (your
 -- query should work on our data as well as yours). That is, for each stock, find the
@@ -58,4 +55,3 @@ FROM (
   FROM trade t
 ) t1
 GROUP BY t1.stocksymbol;
--- time taken 11s180ms

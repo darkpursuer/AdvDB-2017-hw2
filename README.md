@@ -12,12 +12,12 @@ We have tried all the queries in the following systems:
 `problem1.a` contains all the AQuery queries we used for this problem and `problem1.sql` contains the postgres ones.  
 Here is the comparison of the timing:  
 
-|   |AQuery  |postgres|
-|---|--------|--------|
-|a  |8s520ms |3s140ms |
-|b  |10s480ms|19s450ms|
-|c  |13s560ms|26s160ms|
-|d  |9s600ms |11s180ms|
+|   |AQuery  |postgres    |
+|---|--------|------------|
+|a  |8s520ms |2760.802 ms |
+|b  |10s480ms|16924.706 ms|
+|c  |13s560ms|24580.586 ms|
+|d  |9s600ms |10488.660 ms|
 
 From the comparison, AQuery has a much better performance while doing array intensive jobs.
 
