@@ -3,6 +3,12 @@ Homework 2
 
 Author: Taikun Guo and Yi Zhang
 
+## Initialize and create database
+initdb -D /home/<USERNAME>/pgsql/data -U <USERNAME>
+pg_ctl -D /home/<USERNAME>/pgsql/data -l logfile -o "-F -p <PORT>" start
+createdb <DATABASE> -p <PORT>
+psql <DATABASE> -p <PORT>
+
 ## Problem 1  
 We have tried all the queries in the following systems:  
 
@@ -42,9 +48,7 @@ CREATE TABLE my_table (ID INT, val INT)
 ```
 We can now parse in the csv file and insert the records into our predefined table.
 ```sql
-LOAD DATA INFILE "my_table.csv"
-INTO TABLE my_table
-FIELDS TERMINATED BY ","
+COPY trades FROM "my_table.csv" CSV HEADER;
 ```
 
 - Load csv to KDB
