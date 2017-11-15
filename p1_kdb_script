@@ -1,0 +1,28 @@
+Script started on Wed Nov 15 14:35:05 2017
+[?1034hbash-3.2$ q
+KDB+ 3.5 2017.11.08 Copyright (C) 1993-2017 Kx Systems
+m32/ 8()core 16384MB billg1990 172-18-204-140.dynapool.nyu.edu 172.18.204.140 NONEXPIRE  
+
+Welcome to kdb+ 32bit edition
+For support please see http://groups.google.com/d/forum/personal-kdbplus
+Tutorials can be found at http://code.kx.com/q
+To exit, type \\
+To remove this startup msg, edit q.q
+q)trade: ("IIII"; enlist ",") 0:`trade.csv
+q)\t   \l /Users/billg1990/NYU-AdvDB-HW2/problem1. _a.q
++`stocksymbol`average_price!(`s#1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ..
+1357
+q)\t \l /Users/billg1990/NYU-AdvDB-HW2/problem1_a.q     1_b.q
++`stocksymbol`unweighted_moving_avg!(`s#1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 1..
+1837
+q)\t \l /Users/billg1990/NYU-AdvDB-HW2/problem1_a.q   c.q
++`stocksymbol`weighted_moving_avg!(`s#1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 ..
+2540
+q)\t \l /Users/billg1990/NYU-AdvDB-HW2/problem1_a.q   d.q
++`stocksymbol`x__0!(`s#1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 ..
+1217
+q)\\
+bash-3.2$ exit
+exit
+
+Script done on Wed Nov 15 14:36:42 2017
