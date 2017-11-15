@@ -3,14 +3,6 @@ Homework 2
 
 Author: Taikun Guo and Yi Zhang
 
-## Initialize and create database
-```
-initdb -D /home/<USERNAME>/pgsql/data -U <USERNAME>
-pg_ctl -D /home/<USERNAME>/pgsql/data -l logfile -o "-F -p <PORT>" start
-createdb <DATABASE> -p <PORT>
-psql <DATABASE> -p <PORT>
-```
-
 ## Problem 1  
 We have tried all the queries in the following systems:  
 
@@ -42,11 +34,20 @@ We used MySQL for this one and our query is tested on our local MySQL. Our query
 
 ### NOTES
 
+- Initialize and create database
+```
+initdb -D /home/<USERNAME>/pgsql/data -U <USERNAME>
+pg_ctl -D /home/<USERNAME>/pgsql/data -l logfile -o "-F -p <PORT>" start
+createdb <DATABASE> -p <PORT>
+psql <DATABASE> -p <PORT>
+```
+
 - How to import csv file into KDB+ with AQuery:  
 copied from AQuery github:  
 We must first declare the schema of our table, as this is required to parse values to the appropriate type.
 ```sql
-CREATE TABLE my_table (ID INT, val INT)
+CREATE TABLE my_table (ID INT, val INT);
+ALTER TABLE my_table ADD CONSTRAINT primarykey PRIMARY KEY (col1, col2);
 ```
 We can now parse in the csv file and insert the records into our predefined table.
 ```sql
