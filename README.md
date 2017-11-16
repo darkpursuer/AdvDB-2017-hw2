@@ -42,8 +42,8 @@ The average time of these results:
 |--------------|----------|--------------|
 |   Distinct   |  6490ms  |    42044ms   |
 |  No Distinct |   20ms   |    10420ms   |
-|   Covering   |   413ms  |     2646ms   |
-|  No Covering |   659ms  |     2380ms   |
+|   Covering   |   413ms  |     4318ms   |
+|  No Covering |   659ms  |     6197ms   |
 
 ### Generate data and import into database
 We used the same trading data in problem 2, and here are how we import the data into database:
@@ -68,7 +68,21 @@ To make the statement more precisely, we can modify the statement like this:
 - Avoid using distincts, because distincts can slow down the query speed dramatically, especially for KDB, or try to avoid multi-columns distinct actions when using KDB.
 
 ### 2). Importance of the covering indexes
+To create the index, we should use the following commands:
+- PostgreSQL
+```
+CREATE INDEX idx_q_p ON trades (quantity, price)
+```
 
+- KDB
+```
+`quantity`price xkey `trades
+```
+
+In the result table, we can find that KDB and PostgreSQL with covering index both had better performance than without a covering index. And their decrease ratios indicated that both of them are likely to satisfy this rule of thumb. The reason of the increase of performance may be that adding a covering index will enable the database to satisfy all requested columns in a query without performing a further lookup into the clustered index.
+
+To make the statement more precisely, we can modify like this:
+- If some of the columns will be queried frequently, it's better to create a covering index on these columns to improve the query performance.
 
 ## Problem 3  
 We used MySQL for this one and our query is tested on our local MySQL. Our query is in `problem3.sql` file.
