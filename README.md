@@ -58,6 +58,7 @@ COPY trades FROM "trade.csv" CSV HEADER;
 ```
 trades: ("IIII"; enlist ",") 0:`trade.csv
 ```
+And the query codes we used were also attached in this directory.
 
 ### 1). Minimizing distincts can be very useful
 From the result above, we can notice that the time of the queries without distinct were extremely shorter than the queries with distincts for both of the distribution patterns (KDB and PostgreSQL). 
